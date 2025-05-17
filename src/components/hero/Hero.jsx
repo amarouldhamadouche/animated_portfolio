@@ -23,6 +23,7 @@ const textVariants = {
     },
   },
 };
+
 const sliderVariants = {
   initial: {
     x: 0,
@@ -31,13 +32,20 @@ const sliderVariants = {
     x: "-220%",
     transition: {
       repeat: Infinity,
-      repeatType:"mirror",
+      repeatType: "mirror",
       duration: 20,
     },
   },
 };
 
 const Hero = () => {
+  const handleNavigation = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="hero">
       <div className="wrapper">
@@ -47,18 +55,40 @@ const Hero = () => {
           initial="initial"
           animate="animate"
         >
-          <motion.h2 variants={textVariants}>AMAR OULD HAMADOUCHE</motion.h2>
-          <motion.h1 variants={textVariants}>
-            Mobile App Developer
+          <motion.h2 variants={textVariants} className="subtitle">
+            AMAR OULD HAMADOUCHE
+          </motion.h2>
+          <motion.h1 variants={textVariants} className="title">
+            React Native Expert
           </motion.h1>
-
-          <motion.img
+          <motion.p variants={textVariants} className="description">
+            Specialized in crafting high-performance mobile applications with React Native.
+            Building innovative solutions that push the boundaries of mobile development
+            through advanced native integrations and optimized user experiences.
+          </motion.p>
+          <motion.div variants={textVariants} className="skills">
+            <span className="skill-tag">React Native</span>
+            <span className="skill-tag">Native Modules</span>
+            <span className="skill-tag">Mobile Architecture</span>
+            <span className="skill-tag">Performance Optimization</span>
+          </motion.div>
+          <motion.div variants={textVariants} className="buttons">
+            <button className="primary-btn" onClick={() => handleNavigation("Portfolio")}>
+              View Projects
+            </button>
+            <button className="secondary-btn" onClick={() => handleNavigation("Contact")}>
+              Contact Me
+            </button>
+          </motion.div>
+          <motion.div
             className="scrollButton"
             variants={textVariants}
             animate="scrollButton"
-            src="/scroll.png"
-            alt=""
-          />
+            onClick={() => handleNavigation("Portfolio")}
+          >
+            <img src="/scroll.png" alt="Scroll down" />
+            <span>Scroll Down</span>
+          </motion.div>
         </motion.div>
       </div>
       <motion.div
@@ -67,10 +97,17 @@ const Hero = () => {
         initial="initial"
         animate="animate"
       >
-        React Native Developer
+        Mobile Expert
       </motion.div>
       <div className="imageContainer">
-        <img src="/hero.png" alt="" />
+        <motion.img
+          src="/hero.png"
+          alt="Profile"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        />
+        <div className="background-gradient"></div>
       </div>
     </div>
   );

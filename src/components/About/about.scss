@@ -1,6 +1,6 @@
 @import "../../app.scss";
 
-.about{
+.about {
     height: 100%;
     width: 100%;
     position: relative;
@@ -8,41 +8,139 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 20px;
+    overflow: hidden;
 
-    .textContainer{
-        margin: 25px;
-        font-size: 24px;
-        line-height: 50px;
+    .content-wrapper {
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        z-index: 1;
+
+        @include mobile {
+            gap: 30px;
+        }
+    }
+
+    .textContainer {
+        background: rgba(139, 92, 246, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        border-radius: 16px;
+        padding: 40px;
+        font-size: 18px;
+        line-height: 1.8;
+        color: var(--text-color);
+        max-width: 800px;
+        margin: 0 auto;
+        backdrop-filter: blur(5px);
+        
         @include mobile {
             font-size: 16px;
-            line-height: 30px;
+            line-height: 1.6;
+            padding: 25px;
+        }
+
+        .highlight {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        p {
+            margin-bottom: 20px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .skills-section {
+            margin-top: 30px;
+
+            h3 {
+                color: var(--accent-color);
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .skills-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+
+                .skill-tag {
+                    background: rgba(139, 92, 246, 0.1);
+                    color: var(--accent-color);
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    letter-spacing: 1px;
+                    border: 1px solid rgba(139, 92, 246, 0.2);
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        background: rgba(139, 92, 246, 0.2);
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+                    }
+                }
+            }
         }
     }
-    .slidingTextContainer {
-        position: absolute;
-        font-size: 30vh;
-        bottom: 0px;
-        white-space: nowrap;
-        color: #ffffff09;
-        width: 50%;
-        font-weight: bold;
-        @include mobile {
-            font-size: 10vh;
-        }
-    }
-    a{
+
+    .resume-button {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #0c0c1d;
-        height: 50px;
-        width: 300px;
-        margin-top: 10px;
-        background-color: orange;
-        border-radius: 40px;
-        cursor: pointer;
-        border: 0px;
+        padding: 16px 32px;
+        background: linear-gradient(45deg, var(--accent-color), #6366F1);
+        color: white;
+        border-radius: 30px;
         font-size: 16px;
-        z-index: 999999;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        gap: 10px;
+        margin: 0 auto;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        @include mobile {
+            padding: 14px 28px;
+            font-size: 15px;
+        }
+    }
+
+    .slidingTextContainer {
+        position: absolute;
+        font-size: 25vh;
+        bottom: -50px;
+        white-space: nowrap;
+        color: rgba(139, 92, 246, 0.03);
+        width: 100%;
+        font-weight: bold;
+        z-index: 0;
+        
+        @include mobile {
+            font-size: 15vh;
+            bottom: -20px;
+        }
     }
 }

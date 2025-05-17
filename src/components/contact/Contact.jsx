@@ -23,11 +23,15 @@ const Contact = () => {
   const formRef = useRef();
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isInView = useInView(ref, { margin: "-100px" });
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(false);
+    setSuccess(false);
 
     emailjs
       .sendForm(
@@ -38,14 +42,16 @@ const Contact = () => {
       )
       .then(
         (result) => {
-          setSuccess(true)
-          console.log(result, "success")
+          setSuccess(true);
+          formRef.current.reset();
         },
         (error) => {
           setError(true);
-          console.log(error, "error")
         }
-      );
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -57,20 +63,19 @@ const Contact = () => {
       whileInView="animate"
     >
       <motion.div className="textContainer" variants={variants}>
-        <motion.h1 variants={variants}>Contact</motion.h1>
+        <motion.h1 variants={variants}>Let's Connect</motion.h1>
         <motion.div className="item" variants={variants}>
           <h2>Mail</h2>
           <span>amarouldhamadouche0@gmail.com</span>
         </motion.div>
         <motion.div className="item" variants={variants}>
           <h2>Address</h2>
-          <span>tiaret, Tiaret, Algeria</span>
+          <span>Tiaret, Algeria</span>
         </motion.div>
         <motion.div className="item" variants={variants}>
           <h2>Phone</h2>
-          <span>+213540925082</span>
-          <br/>
-          <span>+213699402267</span>
+          <span>+213 540 925 082</span>
+          <span>+213 699 402 267</span>
         </motion.div>
       </motion.div>
       <div className="formContainer">
@@ -110,12 +115,14 @@ const Contact = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 4, duration: 1 }}
         >
-          <input type="text" required placeholder="Name" name="name"/>
-          <input type="email" required placeholder="Email" name="email"/>
-          <textarea rows={8} placeholder="Message" name="message"/>
-          <button>Submit</button>
-          {error && "Error"}
-          {success && "Success"}
+          <input type="text" required placeholder="Your Name" name="name"/>
+          <input type="email" required placeholder="Your Email" name="email"/>
+          <textarea rows={8} required placeholder="Your Message" name="message"/>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Send Message"}
+          </button>
+          {error && <div className="error">Oops! Something went wrong. Please try again.</div>}
+          {success && <div className="success">Message sent successfully! I'll get back to you soon.</div>}
         </motion.form>
       </div>
     </motion.div>

@@ -11,14 +11,28 @@ html {
   font-family: "DM Sans", sans-serif;
 }
 
+:root {
+  --primary-color: #0c0c1d;
+  --accent-color: #8B5CF6;
+  --text-color: #E5E5E5;
+  --gradient-bg: linear-gradient(45deg, #0c0c1d 0%, #1a1a3a 100%);
+}
+
 body {
-  background-color: #0c0c1d;
-  color: lightgray;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 16px;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: var(--accent-color);
+  }
 }
 
 section {
@@ -26,14 +40,24 @@ section {
   width: 100vw;
   scroll-snap-align: center;
   overflow: hidden;
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 @media (max-width: 738px) {
-  html{
+  html {
     scroll-snap-type: none;
   }
-  section{
-    scroll-snap-align: start;
+  
+  section {
+    scroll-snap-align: none;
+    height: auto;
+    min-height: 100vh;
   }
 }
 
@@ -42,13 +66,35 @@ section {
     @content;
   }
 }
+
 @mixin tablet {
   @media (max-width: 1024px) {
     @content;
   }
 }
+
 @mixin desktop {
   @media (max-width: 1366px) {
     @content;
   }
+}
+
+// Animation keyframes
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+// Utility classes
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-in-out;
 }
