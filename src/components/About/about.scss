@@ -107,6 +107,12 @@
         gap: 10px;
         margin: 0 auto;
         
+        @include mobile {
+            padding: 14px 28px;
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
+
         &:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
@@ -120,11 +126,6 @@
             width: 20px;
             height: 20px;
             filter: brightness(0) invert(1);
-        }
-
-        @include mobile {
-            padding: 14px 28px;
-            font-size: 15px;
         }
     }
 
