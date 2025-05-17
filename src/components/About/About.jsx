@@ -83,7 +83,6 @@ const About = () => {
           whileInView="animate"
           viewport={{ once: true }}
         >
-          <img src="/download.png" alt="Download" />
           Download Resume
         </motion.a>
       </div>

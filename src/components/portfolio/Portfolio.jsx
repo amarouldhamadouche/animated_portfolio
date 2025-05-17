@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./portfolio.scss";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 
@@ -55,15 +55,29 @@ const detectOS = () => {
 
 const Single = ({ item }) => {
   const ref = useRef();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: ref,
+    offset: ["start end", "end start"]
   });
 
   const handleClick = (url) => {
     window.location.href = url;
   };
-  const y = useTransform(scrollYProgress, [0, 1], [-300, 300]);
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
     <section ref={ref}>
@@ -72,36 +86,74 @@ const Single = ({ item }) => {
           <div className="imageContainer">
             <img src={item.img} alt={item.title} />
           </div>
-          <motion.div className="textContainer" style={{y}}>
-            <div className="content-scroll">
-              <h2>{item.title}</h2>
-              <p>{item.desc}</p>
-            </div>
-            {item.playStore ? (
-              <div className="button-container">
-                {detectOS() ? (
-                  <button
-                    onClick={() => handleClick(detectOS() === "Android" ? item.playStore : item.appStore)}
-                  >
-                    Download the app
-                  </button>
-                ) : (
-                  <>
-                    <button onClick={() => handleClick(item.playStore)}>
-                      <img src="/playStore.png" alt="Play Store" />
-                      Play Store
-                    </button>
-                    <button onClick={() => handleClick(item.appStore)}>
-                      <img src="/appStore.png" alt="App Store" />
-                      App Store
-                    </button>
-                  </>
-                )}
+          {isMobile ? (
+            <div className="textContainer">
+              <div className="content-scroll">
+                <h2>{item.title}</h2>
+                <p>{item.desc}</p>
               </div>
-            ) : (
-              <span>The app is not published yet in the stores</span>
-            )}
-          </motion.div>
+              {item.playStore ? (
+                <div className="button-container">
+                  {detectOS() ? (
+                    <button
+                      onClick={() => handleClick(detectOS() === "Android" ? item.playStore : item.appStore)}
+                    >
+                      Download the app
+                    </button>
+                  ) : (
+                    <>
+                      <button onClick={() => handleClick(item.playStore)}>
+                        <img src="/playStore.png" alt="Play Store" />
+                        Play Store
+                      </button>
+                      <button onClick={() => handleClick(item.appStore)}>
+                        <img src="/appStore.png" alt="App Store" />
+                        App Store
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <span>The app is not published yet in the stores</span>
+              )}
+            </div>
+          ) : (
+            <motion.div 
+              className="textContainer" 
+              style={{y}}
+              initial={{ y: 0 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            >
+              <div className="content-scroll">
+                <h2>{item.title}</h2>
+                <p>{item.desc}</p>
+              </div>
+              {item.playStore ? (
+                <div className="button-container">
+                  {detectOS() ? (
+                    <button
+                      onClick={() => handleClick(detectOS() === "Android" ? item.playStore : item.appStore)}
+                    >
+                      Download the app
+                    </button>
+                  ) : (
+                    <>
+                      <button onClick={() => handleClick(item.playStore)}>
+                        <img src="/playStore.png" alt="Play Store" />
+                        Play Store
+                      </button>
+                      <button onClick={() => handleClick(item.appStore)}>
+                        <img src="/appStore.png" alt="App Store" />
+                        App Store
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <span>The app is not published yet in the stores</span>
+              )}
+            </motion.div>
+          )}
         </div>
       </div>
       <hr />
